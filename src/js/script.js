@@ -27,21 +27,30 @@ function montarListaProdutos(listaProdutos) {
     
     })
 }
-// montarListaProdutos(produtos)
+montarListaProdutos(produtos)
 
 
 // Função que retorna somente o elemento buscado
 function mostrarBusca(){
     let captura = document.querySelector(".campoBuscaPorNome").value
+
     const listaBusca = produtos.filter((produto) => {
-        return produto.nome.toLowerCase() === captura
+        if(captura === captura.toLowerCase()){
+            return produto.nome.toLowerCase() === captura
+        } else if(captura === captura.toUpperCase()){
+            return produto.nome.toUpperCase() === captura
+        }
+        else{
+            return produto.nome === captura
+        }
     })
+
     montarListaProdutos(listaBusca)
     valorTotal(listaBusca)
-    
 }
 const botaoBusca = document.querySelector(".estiloGeralBotoes--botaoBuscaPorNome")
 botaoBusca.addEventListener("click", mostrarBusca)
+    
 
 // Função que retorna todos os elementos 
 function mostrarTodos(){
