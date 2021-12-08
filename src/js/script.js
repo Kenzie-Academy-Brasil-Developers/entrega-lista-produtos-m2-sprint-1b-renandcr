@@ -33,9 +33,8 @@ function montarListaProdutos(listaProdutos) {
 // Função que retorna somente o elemento buscado
 function mostrarBusca(){
     let captura = document.querySelector(".campoBuscaPorNome").value
-    let total = ""
     const listaBusca = produtos.filter((produto) => {
-                return produto.nome === captura
+        return produto.nome.toLowerCase() === captura
     })
     montarListaProdutos(listaBusca)
     valorTotal(listaBusca)
