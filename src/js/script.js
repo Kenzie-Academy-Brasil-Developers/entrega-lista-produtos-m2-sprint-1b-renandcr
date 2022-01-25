@@ -1,97 +1,87 @@
 const ul = document.querySelector(".containerListaProdutos ul")
-const spanPrice = document.getElementById("precoTotal")
 
-// Função criar template 
-function montarListaProdutos(listaProdutos) {
-    ul.innerHTML = ""
-
+function montarListaProdutos(listaProdutos){
+    ul.innerText = ""
     listaProdutos.forEach((produto) => {
+        // Crie os elementos
         const li = document.createElement("li")
         const img = document.createElement("img")
         const h3 = document.createElement("h3")
         const p = document.createElement("p")
         const span = document.createElement("span")
 
+        // Atribua dados aos elementos
         img.src = produto.img
         img.alt = produto.nome
         h3.innerText = produto.nome
         p.innerText = produto.preco
         span.innerText = produto.secao
 
+        // Adicione os elementos a li
         li.appendChild(img)
         li.appendChild(h3)
         li.appendChild(p)
         li.appendChild(span)
 
+        // Adicione os elementos ao html
         ul.appendChild(li)
-    
+
     })
 }
-montarListaProdutos(produtos)
 
-
-// Função que retorna somente o elemento buscado
-function mostrarBusca(){
-    let captura = document.querySelector(".campoBuscaPorNome").value
-
-    const listaBusca = produtos.filter((produto) => {
-        if(captura === captura.toLowerCase()){
-            return produto.nome.toLowerCase() === captura
-        } else if(captura === captura.toUpperCase()){
-            return produto.nome.toUpperCase() === captura
-        }
-        else{
-            return produto.nome === captura
-        }
-    })
-
-    montarListaProdutos(listaBusca)
-    valorTotal(listaBusca)
-}
-const botaoBusca = document.querySelector(".estiloGeralBotoes--botaoBuscaPorNome")
-botaoBusca.addEventListener("click", mostrarBusca)
-    
-
-// Função que retorna todos os elementos 
-function mostrarTodos(){
-    const listaTodos = produtos.filter((produto) => {
-        return produto.secao === "Hortifruti", "Pão", "Leite"
-    })
-    montarListaProdutos(listaTodos)
-    valorTotal(listaTodos)
-}
-const botaoTodos = document.querySelector(".estiloGeralBotoes--mostrarTodos")
-botaoTodos.addEventListener("click", mostrarTodos)
-
-
-// Função que retorna apenas os elementos "Hortifruti"
+// Filtre os produtos: secao: 'Hortifruti'
 function filtrarPorHortifruti(){
-    const listaHortifruti = produtos.filter((produto) => {
-        return produto.secao === "Hortifruti"
+    const listaHorti = produtos.filter((current, index, array) => {
+        return current.secao === "Hortifruti"
     })
-
-    montarListaProdutos(listaHortifruti)
-    valorTotal(listaHortifruti)
+    montarListaProdutos(listaHorti)
+    calculoTotal(listaHorti)
 }
-const botaoMostrarHortifruti = document.querySelector(".estiloGeralBotoes--filtrarHortifruti")
-botaoMostrarHortifruti.addEventListener("click", filtrarPorHortifruti)
 
+const buttonHorti = document.querySelector(".estiloGeralBotoes--filtrarHortifruti")
 
-// Função que retorna o preço total dos elementos listados
-function valorTotal(produto){
-    let total = 0
-    for(let i = 0; i < produto.length; i++){
-        if(produto.length === 1){
-            total = produto[i].preco.valueOf()
-        } else{
-            total += produto[i].preco.valueOf()
-            console.log(total)
-        }
-    }
-    return spanPrice.innerText = total
+buttonHorti.addEventListener("click", filtrarPorHortifruti)
+
+// Mostre todos os produtos quando o botão "mostrar todos" for clicado
+const filtroMostrarTodos = () => {
+    const mostrarTudo = produtos.filter((current) => {
+        return current
+    })
+    montarListaProdutos(mostrarTudo)
+    calculoTotal(mostrarTudo)
 }
-    
 
+const buttonMostrarTodos = document.querySelector(".estiloGeralBotoes--mostrarTodos")
+buttonMostrarTodos.addEventListener("click", filtroMostrarTodos)
 
-    
-    
+// Mostre os resultados do campo de busca
+const inputValue = document.querySelector(".campoBuscaPorNome")
+
+const mostrarBusca = () => {
+    const buscaInput = inputValue.value
+    console.log(buscaInput.toLowerCase())
+    const filter = produtos.filter((current, index, array) => {
+        if(buscaInput.toLowerCase()){
+            return current.nome.toLowerCase() == buscaInput.toLowerCase()
+        } else if(buscaInput.toUppercase()){
+            return current.nome.toUpperCase == buscaInput.toUpperCase()
+        } 
+        
+    })
+    montarListaProdutos(filter)
+    calculoTotal(filter)
+}
+
+const ButtonBuscaNome = document.querySelector(".estiloGeralBotoes--botaoBuscaPorNome")
+ButtonBuscaNome.addEventListener("click", mostrarBusca)
+
+// Calcule o preço total dos itens mostrados na tela e retorne o total
+const spanPrice = document.querySelector("#precoTotal")
+
+const calculoTotal = (objetoDados) => {
+    let resultado = 0
+    const filter = objetoDados.filter((current, index, array) => {
+        spanPrice.innerText = resultado += current.preco
+    })
+}
+
